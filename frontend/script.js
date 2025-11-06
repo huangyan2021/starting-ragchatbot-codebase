@@ -23,13 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Event Listeners
 function setupEventListeners() {
+    // New Chat button
+    const newChatBtn = document.getElementById('newChatBtn');
+    if (newChatBtn) {
+        newChatBtn.addEventListener('click', createNewSession);
+    }
+
     // Chat functionality
     sendButton.addEventListener('click', sendMessage);
     chatInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage();
     });
-    
-    
+
+
     // Suggested questions
     document.querySelectorAll('.suggested-item').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -82,7 +88,7 @@ async function sendMessage() {
 
         // Replace loading message with response
         loadingMessage.remove();
-        addMessage(data.answer, 'assistant', data.sources);
+        addMessage(data.answer, 'assistant', data.sources, data.source_links);
 
     } catch (error) {
         // Replace loading message with error
@@ -110,30 +116,44 @@ function createLoadingMessage() {
     return messageDiv;
 }
 
-function addMessage(content, type, sources = null, isWelcome = false) {
+function addMessage(content, type, sources = null, sourceLinks = null, isWelcome = false) {
     const messageId = Date.now();
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${type}${isWelcome ? ' welcome-message' : ''}`;
     messageDiv.id = `message-${messageId}`;
-    
+
     // Convert markdown to HTML for assistant messages
     const displayContent = type === 'assistant' ? marked.parse(content) : escapeHtml(content);
-    
+
     let html = `<div class="message-content">${displayContent}</div>`;
-    
+
     if (sources && sources.length > 0) {
+        let sourcesHtml = '';
+        for (let i = 0; i < sources.length; i++) {
+            const source = sources[i];
+            const link = sourceLinks && sourceLinks[i] ? sourceLinks[i] : null;
+
+            if (link) {
+                // Create clickable link that opens in new tab with tooltip
+                sourcesHtml += `<a href="${link}" target="_blank" rel="noopener noreferrer" class="source-link" title="点击访问课程视频: ${source}">${source}</a>`;
+            } else {
+                // No link available, just display the source name with tooltip
+                sourcesHtml += `<span class="source-no-link" title="暂无可用链接: ${source}">${source}</span>`;
+            }
+        }
+
         html += `
             <details class="sources-collapsible">
                 <summary class="sources-header">Sources</summary>
-                <div class="sources-content">${sources.join(', ')}</div>
+                <div class="sources-content">${sourcesHtml}</div>
             </details>
         `;
     }
-    
+
     messageDiv.innerHTML = html;
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    
+
     return messageId;
 }
 

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where:*)",
+      "Bash(pip:*)",
+      "Bash(findstr:*)",
+      "Bash(dir:*)",
+      "Bash(uv run:*)",
+      "Bash(uv:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

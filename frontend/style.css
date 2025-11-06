@@ -447,7 +447,8 @@ header h1 {
 
 /* Sidebar Headers */
 .stats-header,
-.suggested-header {
+.suggested-header,
+.new-chat-btn {
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--text-secondary);
@@ -460,15 +461,20 @@ header h1 {
     transition: color 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    width: 100%;
+    text-align: left;
+    display: block;
 }
 
 .stats-header:focus,
-.suggested-header:focus {
+.suggested-header:focus,
+.new-chat-btn:focus {
     color: var(--primary-color);
 }
 
 .stats-header:hover,
-.suggested-header:hover {
+.suggested-header:hover,
+.new-chat-btn:hover {
     color: var(--primary-color);
 }
 
@@ -715,4 +721,104 @@ details[open] .suggested-header::before {
     .sidebar {
         width: 280px;
     }
+}
+
+/* Source links styling */
+.source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    background: rgba(37, 99, 235, 0.1);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    margin: 0.125rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.source-link::before {
+    content: "🔗";
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+.source-link:hover {
+    color: var(--primary-hover);
+    background: rgba(37, 99, 235, 0.15);
+    border-color: rgba(37, 99, 235, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+    text-decoration: none;
+}
+
+.source-link:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(37, 99, 235, 0.2);
+}
+
+.source-no-link {
+    display: inline-block;
+    color: var(--text-secondary);
+    background: rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 6px;
+    padding: 0.25rem 0.5rem;
+    margin: 0.125rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: default;
+    opacity: 0.8;
+}
+
+.source-no-link::before {
+    content: "📄";
+    margin-right: 0.25rem;
+    font-size: 0.7rem;
+}
+
+/* Improve sources content layout */
+.sources-content {
+    padding: 0.75rem 0.5rem 0.25rem 1.5rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: center;
+}
+
+/* Enhanced sources header */
+.sources-collapsible summary {
+    cursor: pointer;
+    padding: 0.5rem;
+    user-select: none;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: rgba(148, 163, 184, 0.05);
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.sources-collapsible summary::before {
+    content: "📚";
+    font-size: 0.9rem;
+}
+
+.sources-collapsible summary:hover {
+    color: var(--text-primary);
+    background: rgba(148, 163, 184, 0.1);
+}
+
+.sources-collapsible[open] summary {
+    margin-bottom: 0.5rem;
+    background: rgba(37, 99, 235, 0.05);
+    color: var(--primary-color);
 }
