@@ -6,7 +6,12 @@
       "Bash(findstr:*)",
       "Bash(dir:*)",
       "Bash(uv run:*)",
-      "Bash(uv:*)"
+      "Bash(uv:*)",
+      "Bash(netstat:*)",
+      "Bash(curl:*)",
+      "Bash(timeout:*)",
+      "Bash(nul)",
+      "Bash(start http://127.0.0.1:5050)"
     ],
     "deny": [],
     "ask": []
