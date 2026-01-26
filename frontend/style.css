@@ -466,6 +466,13 @@ header h1 {
     display: block;
 }
 
+.new-chat-btn::before {
+    content: '✨';
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 0.75rem;
+}
+
 .stats-header:focus,
 .suggested-header:focus,
 .new-chat-btn:focus {
