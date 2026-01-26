@@ -305,4 +305,42 @@ class VectorStore:
             return None
         except Exception as e:
             print(f"Error getting lesson link: {e}")
-    
+            return None
+
+    def get_course_by_title(self, course_title: str) -> Optional[Dict[str, Any]]:
+        """Get complete course information by title (supports partial matching)"""
+        import json
+        try:
+            # First try exact match
+            results = self.course_catalog.get(ids=[course_title])
+            if results and 'metadatas' in results and results['metadatas']:
+                metadata = results['metadatas'][0].copy()
+                if 'lessons_json' in metadata:
+                    metadata['lessons'] = json.loads(metadata['lessons_json'])
+                    del metadata['lessons_json']
+                return {
+                    'title': course_title,
+                    'link': metadata.get('course_link'),
+                    'instructor': metadata.get('instructor'),
+                    'lessons': metadata.get('lessons', [])
+                }
+
+            # If no exact match, try partial matching
+            all_courses = self.get_all_courses_metadata()
+            for course in all_courses:
+                if course_title.lower() in course.get('title', '').lower():
+                    return {
+                        'title': course.get('title'),
+                        'link': course.get('course_link'),
+                        'instructor': course.get('instructor'),
+                        'lessons': course.get('lessons', [])
+                    }
+
+            return None
+        except Exception as e:
+            print(f"Error getting course by title: {e}")
+            return None
+
+    def get_all_course_titles(self) -> List[str]:
+        """Get all course titles (alias for get_existing_course_titles)"""
+        return self.get_existing_course_titles()
