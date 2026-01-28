@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     sendButton = document.getElementById('sendButton');
     totalCourses = document.getElementById('totalCourses');
     courseTitles = document.getElementById('courseTitles');
-    
+
     setupEventListeners();
+    setupThemeToggle();
     createNewSession();
     loadCourseStats();
 });
@@ -44,6 +45,43 @@ function setupEventListeners() {
             sendMessage();
         });
     });
+}
+
+/**
+ * 设置主题切换功能
+ * 初始化主题并添加切换事件监听器
+ */
+function setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
+    // 从 localStorage 获取保存的主题，默认为 'dark'
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+
+    // 点击切换主题
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+    });
+
+    // 支持键盘快捷键 (Ctrl/Cmd + Shift + T)
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'T') {
+            e.preventDefault();
+            themeToggle.click();
+        }
+    });
+}
+
+/**
+ * 设置主题
+ * @param {string} theme - 主题名称 ('dark' 或 'light')
+ */
+function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
 }
 
 
